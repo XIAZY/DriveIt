@@ -20,4 +20,7 @@ It can automatically creates subfolders followed by __chapters__ and __volumes__
 
 New websites can be easily supported. I'm now working on it.
 ## License
-Licensed by Apache License Version 2.0
+
+Copyright 2016 XIAZY
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
