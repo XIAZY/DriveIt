@@ -1,5 +1,5 @@
 # DriveIt
-Driveit is a new crawler supports multiple websites, for now it supports http://comic.ck101.com and http://www.dm5.com
+DriveIt is a new crawler supports multiple websites, for now it supports http://comic.ck101.com and http://www.dm5.com
 ## Overview
 This project is still under development. However, you can still run it with ```Python 3``` and it will work fine. More features will be added later.
 ## Usage
@@ -19,6 +19,8 @@ For example:
 It can automatically creates subfolders followed by __chapters__ and __volumes__, fetched picture will be stored in the proper location. For example, _chapter 1 page 1_ will be stored in ```/name of the comic/1/1.jpg```, while _volume 5 page 6_ will be stored in ```/name of the comic/V5/6.jpg```.
 
 New websites can be easily supported. I'm now working on it.
+## By The Way
+~~开发进度和更新频率取决于我看漫画的速度……莫慌……~~
 ## License
 
 Copyright 2016 XIAZY
