@@ -29,3 +29,9 @@ class SharedBase(object):
         if os.path.exists(path) is False:
             os.makedirs(path)
         return file_path
+
+    def is_volume(self):
+        return False
+
+    def get_volume_info(self):
+        pass

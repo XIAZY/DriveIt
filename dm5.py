@@ -46,9 +46,3 @@ class DM5(SharedBase):
         img_data = self.get_data(link, 'http://www.dm5.com/m%s/' % cid)
         with open(self.get_path(name, parent, page, 'jpg'), 'wb+') as file:
             file.write(img_data)
-
-    def is_volume(self):
-        return False
-
-    def get_volume_info(self):
-        pass
