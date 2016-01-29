@@ -32,6 +32,8 @@ It can automatically creates subfolders followed by __chapters__ and __volumes__
 New websites can be easily supported. I'm now working on it.
 ## By The Way
 ~~开发进度和更新频率取决于我看漫画的速度……~~
+
+Note the ck101 website is blocked in Mainland China. You may need a global VPN or Proxychains to fetch comics from it.
 ## License
 
 Copyright 2016 XIAZY
