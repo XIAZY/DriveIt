@@ -25,7 +25,7 @@ Note you need to have PyQt5 installed to use the GUI version. For Mac users, you
 brew install pyqt5
 ```
 For example:
-![eg_gui](http://i.imgur.com/jUI8P3A.png)
+![eg_gui](http://i.imgur.com/dqdaOXk.png)
 
 It can automatically creates subfolders followed by __chapters__ and __volumes__, fetched picture will be stored in the proper location. For example, _chapter 1 page 1_ will be stored in ```/name of the comic/1/1.jpg```, while _volume 5 page 6_ will be stored in ```/name of the comic/V5/6.jpg```.
 
