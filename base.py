@@ -12,6 +12,8 @@ class SharedBase(object):
             return 'dm5'
         if re.match(r'.*?comic.ck101.com/comic/\d+?.*', self.url):
             return 'ck101'
+        else:
+            raise NameError(self.url)
 
     def get_data(self, url, referrer=''):
         self.webheader = {
