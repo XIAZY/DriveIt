@@ -16,11 +16,22 @@ and input the site address of the flyleaf when asked.
 For example:
 ![eg](http://i.imgur.com/Yex2M61.png)
 
+Or if you prefer GUI to CLI:
+```
+python3 driveit-gui.py
+```
+Note you need to have PyQt5 installed to use the GUI version. For Mac users, you can install it via
+```
+brew install pyqt5
+```
+For example:
+![eg_gui](http://i.imgur.com/jUI8P3A.png)
+
 It can automatically creates subfolders followed by __chapters__ and __volumes__, fetched picture will be stored in the proper location. For example, _chapter 1 page 1_ will be stored in ```/name of the comic/1/1.jpg```, while _volume 5 page 6_ will be stored in ```/name of the comic/V5/6.jpg```.
 
 New websites can be easily supported. I'm now working on it.
 ## By The Way
-~~开发进度和更新频率取决于我看漫画的速度……莫慌……~~
+~~开发进度和更新频率取决于我看漫画的速度……~~
 ## License
 
 Copyright 2016 XIAZY

@@ -1,9 +1,8 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtCore import QThread, pyqtSignal, Qt
 from window import Ui_MainWindow
 from base import SharedBase
 import sys
-import time
 
 
 class MyMainWindow(QMainWindow, Ui_MainWindow):
@@ -11,9 +10,11 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         super(MyMainWindow, self).__init__()
         self.setupUi(self)
         self.pushButton.clicked.connect(self.do)
+        self.lineEdit.returnPressed.connect(self.do)
 
     def do(self):
         try:
+            self.lineEdit.setDisabled(True)
             self.user_input_url = self.lineEdit.text()
             self.pushButton.setDisabled(True)
             self.base = SharedBase(self.user_input_url)
@@ -28,6 +29,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def status_receive_signal(self, text):
         self.statusBar().showMessage(text)
+        if text == 'All Done!':
+            self.pushButton.setDisabled(False)
 
     def progress_receive_signal(self, progress):
         self.progressBar.setProperty("value", progress)
@@ -52,6 +55,8 @@ class WorkingThread(QThread):
         self.ref_box = self.website_object.get_chapter_info()
         self.status_report_signal.emit('%s, total %d chapters detected.' % (self.comic_name, max(self.ref_box.keys())))
         self.main_loop(self.ref_box)
+        if self.website_object.is_volume() is True:
+            self.main_loop(self.website_object.get_volume_info(), True)
 
     def main_loop(self, refer_box, is_volume=False):
         total_parents = max(refer_box.keys())
@@ -75,6 +80,7 @@ class WorkingThread(QThread):
                                 'Error occurred when downloading %s %d, Page %d.' % (parent_str, parent, page))
             else:
                 self.status_report_signal.emit('Chapter %d cannot be found.' % parent)
+            self.status_report_signal.emit('All Done!')
 
 
 if __name__ == '__main__':
