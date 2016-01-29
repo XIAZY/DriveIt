@@ -40,5 +40,5 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "FetchIt"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "DriveIt"))
         self.pushButton.setText(_translate("MainWindow", "Fetch"))

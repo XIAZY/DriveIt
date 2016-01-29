@@ -31,6 +31,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.statusBar().showMessage(text)
         if text == 'All Done!':
             self.pushButton.setDisabled(False)
+            self.lineEdit.setDisabled(False)
 
     def progress_receive_signal(self, progress):
         self.progressBar.setProperty("value", progress)
@@ -80,7 +81,7 @@ class WorkingThread(QThread):
                                 'Error occurred when downloading %s %d, Page %d.' % (parent_str, parent, page))
             else:
                 self.status_report_signal.emit('Chapter %d cannot be found.' % parent)
-            self.status_report_signal.emit('All Done!')
+        self.status_report_signal.emit('All Done!')
 
 
 if __name__ == '__main__':
