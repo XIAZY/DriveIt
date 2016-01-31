@@ -24,9 +24,9 @@ def main_loop(refer_box, is_volume=False):
 user_input_url = input('URL?\n')
 base = SharedBase(user_input_url)
 if base.get_site_name() is 'dm5':
-    from dm5 import DM5 as SiteClass
+    from sites import DM5 as SiteClass
 elif base.get_site_name() is 'ck101':
-    from ck101 import Ck101 as SiteClass
+    from sites import Ck101 as SiteClass
 website_object = SiteClass(user_input_url)
 comic_name = website_object.get_name()
 ref_box = website_object.get_chapter_info()

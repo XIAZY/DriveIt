@@ -48,9 +48,9 @@ class WorkingThread(QThread):
 
     def run(self):
         if self.site_name == 'dm5':
-            from dm5 import DM5 as SiteClass
+            from sites import DM5 as SiteClass
         elif self.site_name == 'ck101':
-            from ck101 import Ck101 as SiteClass
+            from sites import Ck101 as SiteClass
         self.website_object = SiteClass(self.user_input_url)
         self.comic_name = self.website_object.get_name()
         self.ref_box = self.website_object.get_chapter_info()
@@ -71,10 +71,10 @@ class WorkingThread(QThread):
                 for page in range(1, self.website_object.get_page_info(cid) + 1):
                     link = self.website_object.get_image_link(cid, page)
                     try:
-                        self.website_object.down(self.comic_name, cid, link, parent, page, is_volume)
                         self.status_report_signal.emit(
-                                '%s %d page %d has been downloaded successfully' % (parent_str, parent, page))
+                                'Downloading %s %s %s' % (self.comic_name, parent_str, parent))
                         progress = page / self.website_object.get_page_info(cid)
+                        self.website_object.down(self.comic_name, cid, link, parent, page, is_volume)
                         self.progress_report_signal.emit(progress * 100)
                     except:
                         self.status_report_signal.emit(

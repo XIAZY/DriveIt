@@ -8,7 +8,7 @@ class SharedBase(object):
         self.url = url
 
     def get_site_name(self):
-        if 'www.dm5.com' in self.url:
+        if re.match(r'.*?www.dm5.com/.+?', self.url):
             return 'dm5'
         if re.match(r'.*?comic.ck101.com/comic/\d+?.*', self.url):
             return 'ck101'
