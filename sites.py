@@ -69,10 +69,6 @@ class DM5(SharedBase):
 
     def get_parent_info(self):
         ref_box = []
-        # chapter_match = re.compile(r'href\=\"\/m(\d+?)\/\"\stitle\=\"%s\s第(\d+?)话' % self.name)
-        # for cid, chapter in chapter_match.findall(self.flyleaf_data):
-        #     if chapter not in ref_box.keys():
-        #         ref_box[int(chapter)] = int(cid)
         page_soup = BeautifulSoup(self.flyleaf_data, 'html.parser')
         page_soup_box = page_soup.findAll('ul', {'class': 'nr6 lan2', 'id': 'cbc_1'})
         for border in page_soup_box:

@@ -53,35 +53,45 @@ class WorkingThread(QThread):
             from sites import Ck101 as SiteClass
         self.website_object = SiteClass(self.user_input_url)
         self.comic_name = self.website_object.get_name()
-        self.ref_box = self.website_object.get_chapter_info()
-        self.status_report_signal.emit('%s, total %d chapters detected.' % (self.comic_name, max(self.ref_box.keys())))
+        self.ref_box = self.website_object.get_parent_info()
+        self.status_report_signal.emit('%s, total %d chapters detected.' % (self.comic_name, len(self.ref_box)))
         self.main_loop(self.ref_box)
-        if self.website_object.is_volume() is True:
-            self.main_loop(self.website_object.get_volume_info(), True)
 
     def main_loop(self, refer_box, is_volume=False):
-        total_parents = max(refer_box.keys())
-        if is_volume is True:
-            parent_str = 'Volume'
-        else:
-            parent_str = 'Chapter'
-        for parent in range(1, total_parents + 1):
-            if parent in refer_box.keys():
-                cid = refer_box[parent]
-                for page in range(1, self.website_object.get_page_info(cid) + 1):
-                    link = self.website_object.get_image_link(cid, page)
-                    try:
-                        self.status_report_signal.emit(
-                                'Downloading %s %s %s' % (self.comic_name, parent_str, parent))
-                        progress = page / self.website_object.get_page_info(cid)
-                        self.website_object.down(self.comic_name, cid, link, parent, page, is_volume)
-                        self.progress_report_signal.emit(progress * 100)
-                    except:
-                        self.status_report_signal.emit(
-                                'Error occurred when downloading %s %d, Page %d.' % (parent_str, parent, page))
-            else:
-                self.status_report_signal.emit('Chapter %d cannot be found.' % parent)
-        self.status_report_signal.emit('All Done!')
+        # total_parents = max(refer_box.keys())
+        # if is_volume is True:
+        #     parent_str = 'Volume'
+        # else:
+        #     parent_str = 'Chapter'
+        # for parent in range(1, total_parents + 1):
+        #     if parent in refer_box.keys():
+        #         cid = refer_box[parent]
+        #         for page in range(1, self.website_object.get_page_info(cid) + 1):
+        #             link = self.website_object.get_image_link(cid, page)
+        #             try:
+        #                 self.status_report_signal.emit(
+        #                         'Downloading %s %s %s' % (self.comic_name, parent_str, parent))
+        #                 progress = page / self.website_object.get_page_info(cid)
+        #                 self.website_object.down(self.comic_name, cid, link, parent, page, is_volume)
+        #                 self.progress_report_signal.emit(progress * 100)
+        #             except:
+        #                 self.status_report_signal.emit(
+        #                         'Error occurred when downloading %s %d, Page %d.' % (parent_str, parent, page))
+        #     else:
+        #         self.status_report_signal.emit('Chapter %d cannot be found.' % parent)
+        # self.status_report_signal.emit('All Done!')
+        for ref_tuple in refer_box:
+            title, parent_link = ref_tuple
+            total_page = self.website_object.get_page_info(parent_link)
+            for page in range(1, total_page + 1):
+                link = self.website_object.get_image_link(parent_link, page)
+                try:
+                    self.status_report_signal.emit('Downloading %s' % title)
+                    self.website_object.down(self.comic_name, parent_link, link, title, page)
+                    progress = page / self.website_object.get_page_info(parent_link)
+                    self.progress_report_signal.emit(progress * 100)
+                except:
+                    self.status_report_signal('Error occurred when downloading %s, Page %d.' % (title, page))
 
 
 if __name__ == '__main__':
