@@ -27,7 +27,7 @@ brew install pyqt5
 For example:
 ![eg_gui](http://i.imgur.com/6keZaq1.png)
 
-It can automatically creates subfolders followed by __chapters__ and __volumes__, fetched picture will be stored in the proper location. For example, _chapter 1 page 1_ will be stored in ```/name of the comic/1/1.jpg```, while _volume 5 page 6_ will be stored in ```/name of the comic/V5/6.jpg```.
+It can automatically creates subfolders followed by __chapters__ or __volumes__, fetched picture will be stored in the proper location. For instance, _chapter 1 page 1_ will be stored in ```/name of the comic/Chapter 1/1.jpg```.
 
 New websites can be easily supported. I'm now working on it.
 ## By The Way
