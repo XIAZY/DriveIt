@@ -8,9 +8,9 @@ class SharedBase(object):
         self.url = url
 
     def get_site_name(self):
-        if re.match(r'.*?www.dm5.com/.+?', self.url):
+        if re.match(r'http://www.dm5.com/.+?', self.url):
             return 'dm5'
-        if re.match(r'.*?comic.ck101.com/comic/\d+?.*', self.url):
+        if re.match(r'http://comic.ck101.com/comic/\d+?.*', self.url):
             return 'ck101'
         else:
             raise NameError(self.url)
@@ -31,9 +31,3 @@ class SharedBase(object):
         if os.path.exists(path) is False:
             os.makedirs(path)
         return file_path
-
-    def is_volume(self):
-        return False
-
-    def get_volume_info(self):
-        pass

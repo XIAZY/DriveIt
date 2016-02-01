@@ -2,23 +2,6 @@ from base import SharedBase
 
 
 def main_loop(refer_box):
-    # total_parents = max(refer_box.keys())
-    # if is_volume is True:
-    #     parent_str = 'Volume'
-    # else:
-    #     parent_str = 'Chapter'
-    # for parent in range(1, total_parents + 1):
-    #     if parent in refer_box.keys():
-    #         cid = refer_box[parent]
-    #         for page in range(1, website_object.get_page_info(cid) + 1):
-    #             link = website_object.get_image_link(cid, page)
-    #             try:
-    #                 website_object.down(comic_name, cid, link, parent, page, is_volume)
-    #                 print('%s %d page %d has been downloaded successfully' % (parent_str, parent, page))
-    #             except:
-    #                 print('Error occurred when downloading %s %d, Page %d.' % (parent_str, parent, page))
-    #     else:
-    #         print('Chapter %d cannot be found.' % parent)
     for ref_tuple in refer_box:
         title, parent_link = ref_tuple
         total_page = website_object.get_page_info(parent_link)
