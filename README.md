@@ -5,7 +5,7 @@ This project is still under development. However, you can still run it with ```P
 ## Usage
 Simply run it with ```Python 3```. You may need to install some dependencies from PyPi.
 ```
-sudo pip3 install nodejs
+sudo pip3 install Naked
 ```
 Then you should be able to run it happily. To start, type 
 ```
