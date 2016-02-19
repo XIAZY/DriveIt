@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("DriveIt")
+        MainWindow.setObjectName("MainWindow")
         MainWindow.resize(499, 177)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -55,7 +55,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "DriveIt"))
         self.pushButton.setText(_translate("MainWindow", "Fetch"))
         self.checkBox.setText(_translate("MainWindow", "Only fetch latest"))
         self.label.setText(_translate("MainWindow", "chapters"))
