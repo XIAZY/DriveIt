@@ -39,6 +39,9 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         if text == 'All Done!':
             self.pushButton.setDisabled(False)
             self.lineEdit.setDisabled(False)
+            self.checkBox.setDisabled(False)
+            self.spinBox.setDisabled(False)
+            self.label.setDisabled(False)
 
     def progress_receive_signal(self, progress):
         self.progressBar.setProperty("value", progress)
@@ -79,7 +82,9 @@ class WorkingThread(QThread):
                     progress = page / self.website_object.get_page_info(parent_link)
                     self.progress_report_signal.emit(progress * 100)
                 except:
-                    self.status_report_signal('Error occurred when downloading %s, Page %d.' % (title, page))
+                    errlog = 'Error occurred when downloading %s, Page %d.' % (title, page)
+                    self.status_report_signal.emit(errlog)
+        self.status_report_signal.emit('All Done!')
 
 
 if __name__ == '__main__':
