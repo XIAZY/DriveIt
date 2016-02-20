@@ -29,27 +29,30 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.work = WorkingThread(self.site_name, self.user_input_url, checkbox_value)
             self.work.status_report_signal.connect(self.status_receive_signal)
             self.work.progress_report_signal.connect(self.progress_receive_signal)
+            self.work.stop_signal.connect(self.stop_signal)
             self.work.start()
         except NameError as e:
-            self.statusBar().showMessage('Website %s illegal or not supported' % e)
-            self.pushButton.setDisabled(False)
+            self.stop_signal('Website %s illegal or not supported' % e)
 
     def status_receive_signal(self, text):
         self.statusBar().showMessage(text)
-        if text == 'All Done!':
-            self.pushButton.setDisabled(False)
-            self.lineEdit.setDisabled(False)
-            self.checkBox.setDisabled(False)
-            self.spinBox.setDisabled(False)
-            self.label.setDisabled(False)
 
     def progress_receive_signal(self, progress):
         self.progressBar.setProperty("value", progress)
+
+    def stop_signal(self, text=''):
+        self.pushButton.setDisabled(False)
+        self.lineEdit.setDisabled(False)
+        self.checkBox.setDisabled(False)
+        self.spinBox.setDisabled(False)
+        self.label.setDisabled(False)
+        self.statusBar().showMessage(text)
 
 
 class WorkingThread(QThread):
     status_report_signal = pyqtSignal(str)
     progress_report_signal = pyqtSignal(float)
+    stop_signal = pyqtSignal(str)
 
     def __init__(self, site_name, url, checkbox_value):
         super(WorkingThread, self).__init__()
@@ -66,9 +69,14 @@ class WorkingThread(QThread):
         self.comic_name = self.website_object.get_name()
         self.ref_box = self.website_object.get_parent_info()
         self.status_report_signal.emit('%s, total %d chapters detected.' % (self.comic_name, len(self.ref_box)))
-        if self.latest_limit is not False:
-            self.ref_box = self.ref_box[-self.latest_limit:]
-        self.main_loop(self.ref_box)
+        try:
+            if self.latest_limit is not False:
+                if self.latest_limit > len(self.ref_box):
+                    raise ValueError
+                self.ref_box = self.ref_box[-self.latest_limit:]
+            self.main_loop(self.ref_box)
+        except ValueError as e:
+            self.stop_signal.emit('Chapters selected out of range, maximum %s chapters' % len(self.ref_box))
 
     def main_loop(self, refer_box):
         for ref_tuple in refer_box:
@@ -84,7 +92,7 @@ class WorkingThread(QThread):
                 except:
                     errlog = 'Error occurred when downloading %s, Page %d.' % (title, page)
                     self.status_report_signal.emit(errlog)
-        self.status_report_signal.emit('All Done!')
+        self.stop_signal.emit('All Done!')
 
 
 if __name__ == '__main__':
