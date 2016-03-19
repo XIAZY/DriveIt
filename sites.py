@@ -3,7 +3,7 @@ import re
 import webbrowser
 import time
 from bs4 import BeautifulSoup
-
+import execjs
 
 class Ck101(SharedBase):
     def __init__(self, url):
@@ -82,13 +82,8 @@ class DM5(SharedBase):
             if node_script is '':
                 webbrowser.open_new('http://www.dm5.com%s' % parent_link)
                 time.sleep(3)
-        refined_script = 'process.stdout.write(' + node_script.strip() + '+\'\\n\')'
-        with open('towards_direct_link.js', 'w') as file:
-            file.write(refined_script)
-        from Naked.toolshed.shell import muterun_js
-        response = muterun_js('towards_direct_link.js')
-        stdout = response.stdout.decode('utf-8')
-        return stdout.split(',')[0]
+        link=execjs.eval(node_script)[0]
+        return link
 
     def down(self, name, parent_link, link, parent_title, page):
         img_data = self.get_data(link, 'http://www.dm5.com%s' % parent_link)
