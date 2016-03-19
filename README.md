@@ -3,6 +3,8 @@ DriveIt is a new crawler supports multiple websites, for now it supports http://
 ## Overview
 This project is still under development. However, you can still run it with ```Python 3``` and it will work fine. More features will be added later.
 ## Usage
+__If you just want to use it _clean__ and don't want to install all these dependencies, go to [Releases](https://github.com/XIAZY/DriveIt/releases) for executable realeases.__ However, I sincerely hope you can check out the source code and send me a pull request.
+
 Simply run it with ```Python 3```. You may need to install some dependencies from PyPi. Make sure to install a JavaScript runtime before you start (like ``Node.js``).
 
 ```
