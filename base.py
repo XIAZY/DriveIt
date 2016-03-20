@@ -1,4 +1,4 @@
-from urllib import request
+from urllib import request, parse
 import os
 import re
 
@@ -31,3 +31,7 @@ class SharedBase(object):
         if os.path.exists(path) is False:
             os.makedirs(path)
         return file_path
+
+    def unicodeToURL(self, url):
+        url_safe = parse.quote(url, '%/:=&?~#+!$,;\'@()*[]')
+        return url_safe

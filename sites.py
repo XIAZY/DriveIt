@@ -4,6 +4,7 @@ import webbrowser
 import time
 from bs4 import BeautifulSoup
 import execjs
+from urllib.parse import quote,urlsplit,urlunsplit
 
 class Ck101(SharedBase):
     def __init__(self, url):
@@ -83,7 +84,8 @@ class DM5(SharedBase):
                 webbrowser.open_new('http://www.dm5.com%s' % parent_link)
                 time.sleep(3)
         link=execjs.eval(node_script)[0]
-        return link
+        link_safe=self.unicodeToURL(link)
+        return link_safe
 
     def down(self, name, parent_link, link, parent_title, page):
         img_data = self.get_data(link, 'http://www.dm5.com%s' % parent_link)
