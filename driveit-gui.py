@@ -1,8 +1,10 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5.QtCore import QThread, pyqtSignal, Qt
-from ui import Ui_MainWindow
-from base import SharedBase
 import sys
+
+from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtWidgets import QApplication, QMainWindow
+
+from base import SharedBase
+from ui import Ui_MainWindow
 
 
 class MyMainWindow(QMainWindow, Ui_MainWindow):
@@ -65,6 +67,8 @@ class WorkingThread(QThread):
             from sites import DM5 as SiteClass
         elif self.site_name == 'ck101':
             from sites import Ck101 as SiteClass
+        elif self.site_name == 'dmzj':
+            from sites import Dmzj as SiteClass
         self.website_object = SiteClass(self.user_input_url)
         self.comic_name = self.website_object.get_name()
         self.ref_box = self.website_object.get_parent_info()

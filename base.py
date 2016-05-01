@@ -1,6 +1,6 @@
-from urllib import request, parse
 import os
 import re
+from urllib import request, parse
 
 
 class SharedBase(object):
@@ -12,6 +12,8 @@ class SharedBase(object):
             return 'dm5'
         if re.match(r'http://comic.ck101.com/comic/\d+?.*', self.url):
             return 'ck101'
+        if re.match(r'http://www.dmzj.com/info/.+?.html', self.url):
+            return 'dmzj'
         else:
             raise NameError(self.url)
 
