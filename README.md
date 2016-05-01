@@ -1,9 +1,11 @@
 # DriveIt
-DriveIt is a new crawler supports multiple websites, for now it supports http://comic.ck101.com and http://www.dm5.com
+DriveIt is a new crawler supports multiple websites, for now it supports http://comic.ck101.com http://www.dm5.com and http://www.dmzj.com
+
+YES, DMZJ is now supported!
 ## Overview
-This project is still under development. However, you can still run it with ```Python 3``` and it will work fine. More features will be added later.
+This project is still under development. More features will be added later.
 ## Usage
-__If you just want to use it _clean_ and don't want to install all these dependencies, go to [Releases](https://github.com/XIAZY/DriveIt/releases) for executable realeases.__ However, I sincerely hope you can check out the source code and send me a pull request.
+__If you just want to use it _clean_ and don't want to install all these dependencies, go to [Releases](https://github.com/XIAZY/DriveIt/releases) for executable releases.__ However, I sincerely hope you can check out the source code and send me a pull request.
 
 Simply run it with ```Python 3```. You may need to install some dependencies from PyPi. Make sure to install a JavaScript runtime before you start (like ``Node.js``).
 
@@ -34,10 +36,16 @@ It can automatically creates subfolders followed by __chapters__ or __volumes__,
 
 New websites can be easily supported. I'm now working on it.
 ## By The Way
+
+- A flyleaf page means the index page of the comic. For example, http://comic.ck101.com/comic/7194 is a flyleaf page of ck101, http://www.dm5.com/manhua-reclksdysjsh/ is a flyleaf page of DM5 and http://www.dmzj.com/info/shenshimenlianaizhanzheng.html is a flyleaf page of DMZJ.
+
 - Reading-driven development. Update frequency may be unstable depends on how far I read.
 
 - Note that the ck101 website is blocked in Mainland China. You may need a global VPN or Proxychains to fetch comics from it.
 
+- If you want to fetch comics from DMZJ, make sure the flyleaf address begins with www.dmzj.com instead of manhua.dmzj.com. The logic to fetch comics from these two domains are different.
+
+- Personally, I'll recommend you to fetch comics from DMZJ. For me this website is the fastest one.
 ## License
 
 Copyright 2016 XIAZY
