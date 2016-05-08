@@ -14,6 +14,8 @@ class SharedBase(object):
             return 'ck101'
         if re.match(r'http://www.dmzj.com/info/.+?.html', self.url):
             return 'dmzj'
+        if re.match(r'http://g.e-hentai.org/g/\d+?/[a-zA-Z0-9]+?', self.url):
+            return 'ehentai'
         else:
             raise NameError(self.url)
 

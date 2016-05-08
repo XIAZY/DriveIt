@@ -22,6 +22,8 @@ elif base.get_site_name() is 'ck101':
     from sites import Ck101 as SiteClass
 elif base.get_site_name() is 'dmzj':
     from sites import Dmzj as SiteClass
+elif base.get_site_name() is 'ehentai':
+    from sites import Ehentai as SiteClass
 website_object = SiteClass(user_input_url)
 comic_name = website_object.get_name()
 ref_box = website_object.get_parent_info()
