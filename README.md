@@ -1,7 +1,14 @@
 # DriveIt
-DriveIt is a new crawler supports multiple websites, for now it supports http://comic.ck101.com http://www.dm5.com and http://www.dmzj.com
+DriveIt is a new crawler supports multiple websites, for now it supports 
 
-YES, DMZJ is now supported!
+- [ck101](http://comic.ck101.com) (卡提諾×揪漫畫)
+
+- [DM5](http://www.dm5.com) (动漫屋)
+
+- [DMZJ](http://www.dmzj.com) (动漫之家)
+
+- [E-hentai gallery](http://g.e-hentai.org/)
+
 ## Overview
 This project is still under development. More features will be added later.
 ## Usage
@@ -37,7 +44,12 @@ It can automatically creates subfolders followed by __chapters__ or __volumes__,
 New websites can be easily supported. I'm now working on it.
 ## By The Way
 
-- A flyleaf page means the index page of the comic. For example, http://comic.ck101.com/comic/7194 is a flyleaf page of ck101, http://www.dm5.com/manhua-reclksdysjsh/ is a flyleaf page of DM5 and http://www.dmzj.com/info/shenshimenlianaizhanzheng.html is a flyleaf page of DMZJ.
+- A flyleaf page means the index page of the comic. For instances:
+
+    - http://comic.ck101.com/comic/7194 is a flyleaf page of ck101
+    - http://www.dm5.com/manhua-reclksdysjsh/ is a flyleaf page of DM5
+    - http://www.dmzj.com/info/shenshimenlianaizhanzheng.html is a flyleaf page of DMZJ
+    - http://g.e-hentai.org/g/932005/0949fb3a8c/ is a flyleaf page of E-hentai gallery
 
 - Reading-driven development. Update frequency may be unstable depends on how far I read.
 

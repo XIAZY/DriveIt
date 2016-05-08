@@ -164,9 +164,9 @@ class Ehentai(SharedBase):
         page_link = self.page_box[page - 1]
         inner_page_data = self.get_data(page_link).decode('utf-8')
         inner_page_soup = BeautifulSoup(inner_page_data, 'html.parser')
-        box = inner_page_soup.find('img', {'id': 'img'})
-        return box['src']
-        # return self.img_link_box[page-1]
+        box = inner_page_soup.find('iframe')
+        img_link = box.findNext('img')['src']
+        return img_link
 
     def down(self, comic_name, parent_link, link, parent_title, page):
         img_data = self.get_data(link, parent_link)

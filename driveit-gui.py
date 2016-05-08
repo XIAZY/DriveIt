@@ -69,11 +69,13 @@ class WorkingThread(QThread):
             from sites import Ck101 as SiteClass
         elif self.site_name == 'dmzj':
             from sites import Dmzj as SiteClass
-        self.website_object = SiteClass(self.user_input_url)
-        self.comic_name = self.website_object.get_name()
-        self.ref_box = self.website_object.get_parent_info()
-        self.status_report_signal.emit('%s, total %d chapters detected.' % (self.comic_name, len(self.ref_box)))
+        elif self.site_name == 'ehentai':
+            from sites import Ehentai as SiteClass
         try:
+            self.website_object = SiteClass(self.user_input_url)
+            self.comic_name = self.website_object.get_name()
+            self.ref_box = self.website_object.get_parent_info()
+            self.status_report_signal.emit('%s, total %d chapters detected.' % (self.comic_name, len(self.ref_box)))
             if self.latest_limit is not False:
                 if self.latest_limit > len(self.ref_box):
                     raise ValueError
@@ -81,6 +83,8 @@ class WorkingThread(QThread):
             self.main_loop(self.ref_box)
         except ValueError as e:
             self.stop_signal.emit('Chapters selected out of range, maximum %s chapters' % len(self.ref_box))
+        except ConnectionError as e:
+            self.stop_signal.emit('%s, consider using a proxy or a VPN.' % e)
 
     def main_loop(self, refer_box):
         for ref_tuple in refer_box:

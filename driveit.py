@@ -24,9 +24,11 @@ elif base.get_site_name() is 'dmzj':
     from sites import Dmzj as SiteClass
 elif base.get_site_name() is 'ehentai':
     from sites import Ehentai as SiteClass
-website_object = SiteClass(user_input_url)
-comic_name = website_object.get_name()
-ref_box = website_object.get_parent_info()
-print('%s, total %d chapters detected.' % (comic_name, len(ref_box)))
-
-main_loop(ref_box)
+try:
+    website_object = SiteClass(user_input_url)
+    comic_name = website_object.get_name()
+    ref_box = website_object.get_parent_info()
+    print('%s, total %d chapters detected.' % (comic_name, len(ref_box)))
+    main_loop(ref_box)
+except ConnectionError as e:
+    print('%s, consider using a proxy or a VPN.' % e)
