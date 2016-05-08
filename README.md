@@ -57,6 +57,8 @@ New websites can be easily supported. I'm now working on it.
 
 - If you want to fetch comics from DMZJ, make sure the flyleaf address begins with www.dmzj.com instead of manhua.dmzj.com. The logic to fetch comics from these two domains are different.
 
+- Sometimes you will receive `connection reset` if you try to fetch comics from eHentai if you are in Mainland China. Use a global VPN or Proxychains instead.
+
 - Personally, I'll recommend you to fetch comics from DMZJ. For me this website is the fastest one.
 ## License
 
