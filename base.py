@@ -31,10 +31,22 @@ class SharedBase(object):
     def get_path(self, name, parent, page, ext):
         filename = str(page) + '.' + ext
         path = os.path.join(os.getcwd(), name, str(parent))
+        path_safe = os.path.join(os.getcwd(), self.safe(name), self.safe(str(parent)))
         file_path = os.path.join(path, filename)
-        if os.path.exists(path) is False:
-            os.makedirs(path)
-        return file_path
+        if os.path.exists(path) is False and os.path.exists(path_safe) is False:
+            try:
+                os.makedirs(path)
+            except NotADirectoryError as e:
+                os.makedirs(path_safe)
+        if os.path.exists(path) is True:
+            return file_path
+        else:
+            return os.path.join(path_safe, filename)
+
+    def safe(self, str):
+        str_safe = str.replace('/', '').replace('\\', '').replace('*', '').replace('?', '').replace('<', '').replace(
+            '>', '').replace('|', '').replace(':', '').replace('"', '')
+        return str_safe
 
     def unicodeToURL(self, url):
         url_safe = parse.quote(url, '%/:=&?~#+!$,;\'@()*[]')
