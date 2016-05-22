@@ -71,16 +71,14 @@ class DM5(SharedBase):
                 if li.a.has_attr('title'):
                     ref_link = li.a['href']
                     ref_title = li.a['title']
-                    print(ref_link,ref_title)
                     ref_box.insert(0, (ref_title, ref_link))
         soup_box = self.flyleaf_soup.findAll('ul', {'class': 'nr6 lan2', 'id': 'cbc_2'})
         for border in soup_box:
-           for li in border.findAll('li'):
-               if li.a.has_attr('title'):
-                   ref_link = li.a['href']
-                   ref_title = li.a['title']
-                   print(ref_link,ref_title)
-                   ref_box.insert(0, (ref_title, ref_link))
+            for li in border.findAll('li'):
+                if li.a.has_attr('title'):
+                    ref_link = li.a['href']
+                    ref_title = li.a['title']
+                    ref_box.insert(0, (ref_title, ref_link))
         return ref_box
 
     def get_page_info(self, parent_link):
