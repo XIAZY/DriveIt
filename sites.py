@@ -73,8 +73,8 @@ class DM5(SharedBase):
                     ref_title = li.a['title']
                     print(ref_link,ref_title)
                     ref_box.insert(0, (ref_title, ref_link))
-       soup_box = self.flyleaf_soup.findAll('ul', {'class': 'nr6 lan2', 'id': 'cbc_2'})
-       for border in soup_box:
+        soup_box = self.flyleaf_soup.findAll('ul', {'class': 'nr6 lan2', 'id': 'cbc_2'})
+        for border in soup_box:
            for li in border.findAll('li'):
                if li.a.has_attr('title'):
                    ref_link = li.a['href']
