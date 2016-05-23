@@ -6,11 +6,11 @@ def main_loop(ref_box):
         parent_title, parent_link = ref_tuple
         total_page = website_object.get_page_info(parent_link)
         for page in range(1, total_page + 1):
-            link = website_object.get_image_link(parent_link, page)
             try:
                 if os.path.exists(base.get_path(comic_name, parent_title, page, 'jpg')):
                     print('%s page %d has been downloaded before' % (parent_title, page))
                 else:
+                    link = website_object.get_image_link(parent_link, page)
                     website_object.down(comic_name, parent_link, link, parent_title, page)
                     print('%s page %d has been downloaded successfully' % (parent_title, page))
             except:
