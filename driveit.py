@@ -1,5 +1,5 @@
 from base import SharedBase
-
+import os
 
 def main_loop(ref_box):
     for ref_tuple in ref_box:
@@ -8,8 +8,11 @@ def main_loop(ref_box):
         for page in range(1, total_page + 1):
             link = website_object.get_image_link(parent_link, page)
             try:
-                website_object.down(comic_name, parent_link, link, parent_title, page)
-                print('%s page %d has been downloaded successfully' % (parent_title, page))
+                if os.path.exists(base.get_path(comic_name, parent_title, page, 'jpg')):
+                    print('%s page %d has been downloaded before' % (parent_title, page))
+                else:
+                    website_object.down(comic_name, parent_link, link, parent_title, page)
+                    print('%s page %d has been downloaded successfully' % (parent_title, page))
             except:
                 print('Error occurred when downloading %s, Page %d.' % (parent_title, page))
 
