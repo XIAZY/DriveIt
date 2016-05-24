@@ -20,14 +20,14 @@ class Ck101(SharedBase):
         return self.name
 
     def get_parent_info(self):
-        ref_box = []
+        self.ref_box = []
         soup_box = self.flyleaf_soup.findAll('div', {'class': 'relativeRec'})
         for border in soup_box:
             for li in border.findAll('li'):
                 ref_link = li.a['href']
                 ref_title = li.a['title']
-                ref_box.insert(0, (ref_title, ref_link))
-        return ref_box
+                self.ref_box.insert(0, (ref_title, ref_link))
+        return self.ref_box
 
     def get_page_info(self, ref_link):
         inner_data = self.get_data('http://comic.ck101.com%s' % ref_link).decode('utf-8')
@@ -64,15 +64,15 @@ class DM5(SharedBase):
         return self.name
 
     def get_parent_info(self):
-        ref_box = []
+        self.ref_box = []
         soup_box = self.flyleaf_soup.findAll('ul', {'class': 'nr6 lan2'})
         for border in soup_box:
             for li in border.findAll('li'):
                 if li.a.has_attr('title'):
                     ref_link = li.a['href']
                     ref_title = li.a['title']
-                    ref_box.insert(0, (ref_title, ref_link))
-        return ref_box
+                    self.ref_box.insert(0, (ref_title, ref_link))
+        return self.ref_box
 
     def get_page_info(self, parent_link):
         inner_page_data = self.get_data('http://www.dm5.com%s' % parent_link).decode('utf-8')
@@ -110,14 +110,14 @@ class Dmzj(SharedBase):
         return self.name
 
     def get_parent_info(self):
-        ref_box = []
+        self.ref_box = []
         soup_box = self.flyleaf_soup.findAll('div', {'class': 'tab-content zj_list_con autoHeight'})
         for border in soup_box:
             for li in border.findAll('li'):
                 ref_link = li.a['href']
                 ref_title = li.text
-                ref_box.append((ref_title, ref_link))
-        return ref_box
+                self.ref_box.append((ref_title, ref_link))
+        return self.ref_box
 
     def get_page_info(self, parent_link):
         inner_page_data = self.get_data(parent_link).decode('utf-8')
@@ -151,7 +151,8 @@ class Ehentai(SharedBase):
         return self.name
 
     def get_parent_info(self):
-        return [(self.name, self.flyleaf_url)]
+        self.ref_box = [(self.name, self.flyleaf_url)]
+        return self.ref_box
 
     def get_page_info(self, parent_link):
         self.page_box = []

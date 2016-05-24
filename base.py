@@ -28,7 +28,7 @@ class SharedBase(object):
         page_data = web_page.read()
         return page_data
 
-    def get_path(self, name, parent, page, ext):
+    def get_path(self, name, parent, page, ext=''):
         filename = str(page) + '.' + ext
         path = os.path.join(os.getcwd(), name, str(parent))
         path_safe = os.path.join(os.getcwd(), self.safe(name), self.safe(str(parent)))
@@ -45,7 +45,7 @@ class SharedBase(object):
 
     def safe(self, str):
         str_safe = str.replace('/', '').replace('\\', '').replace('*', '').replace('?', '').replace('<', '').replace(
-            '>', '').replace('|', '').replace(':', '').replace('"', '')
+                '>', '').replace('|', '').replace(':', '').replace('"', '')
         return str_safe
 
     def unicodeToURL(self, url):

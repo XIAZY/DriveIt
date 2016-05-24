@@ -1,3 +1,4 @@
+import glob
 import sys
 
 from PyQt5.QtCore import QThread, pyqtSignal
@@ -91,15 +92,19 @@ class WorkingThread(QThread):
             title, parent_link = ref_tuple
             total_page = self.website_object.get_page_info(parent_link)
             for page in range(1, total_page + 1):
-                link = self.website_object.get_image_link(parent_link, page)
-                try:
-                    self.status_report_signal.emit('Downloading %s' % title)
-                    self.website_object.down(self.comic_name, parent_link, link, title, page)
-                    progress = page / self.website_object.get_page_info(parent_link)
-                    self.progress_report_signal.emit(progress * 100)
-                except:
-                    errlog = 'Error occurred when downloading %s, Page %d.' % (title, page)
-                    self.status_report_signal.emit(errlog)
+                vague_path = self.website_object.get_path(self.comic_name, title, page) + '*'
+                if glob.glob(vague_path):
+                    self.status_report_signal.emit('%s page %d already existed.' % (title, page))
+                else:
+                    try:
+                        link = self.website_object.get_image_link(parent_link, page)
+                        self.status_report_signal.emit('Downloading %s' % title)
+                        self.website_object.down(self.comic_name, parent_link, link, title, page)
+                        progress = page / self.website_object.get_page_info(parent_link)
+                        self.progress_report_signal.emit(progress * 100)
+                    except:
+                        errlog = 'Error occurred when downloading %s, Page %d.' % (title, page)
+                        self.status_report_signal.emit(errlog)
         self.stop_signal.emit('All Done!')
 
 

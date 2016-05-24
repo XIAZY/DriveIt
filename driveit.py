@@ -1,20 +1,24 @@
 from base import SharedBase
-import os
+# import os
+import glob
+
 
 def main_loop(ref_box):
     for ref_tuple in ref_box:
         parent_title, parent_link = ref_tuple
         total_page = website_object.get_page_info(parent_link)
         for page in range(1, total_page + 1):
-            try:
-                if os.path.exists(base.get_path(comic_name, parent_title, page, 'jpg')):
-                    print('%s page %d has been downloaded before' % (parent_title, page))
-                else:
+            vague_path = website_object.get_path(comic_name, parent_title, page) + '*'
+            # if os.path.exists(website_object.get_path(comic_name, parent_title, page, 'jpg')):
+            if glob.glob(vague_path):
+                print('%s page %d already existed.' % (parent_title, page))
+            else:
+                try:
                     link = website_object.get_image_link(parent_link, page)
                     website_object.down(comic_name, parent_link, link, parent_title, page)
                     print('%s page %d has been downloaded successfully' % (parent_title, page))
-            except:
-                print('Error occurred when downloading %s, Page %d.' % (parent_title, page))
+                except:
+                    print('Error occurred when downloading %s, Page %d.' % (parent_title, page))
 
 
 user_input_url = input('URL?\n')
