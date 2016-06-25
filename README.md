@@ -12,8 +12,6 @@ DriveIt is a new crawler supports multiple websites, for now it supports
 ## Overview
 This project is still under development. More features will be added later.
 ## Usage
-__If you just want to use it _clean_ and don't want to install all these dependencies, go to [Releases](https://github.com/XIAZY/DriveIt/releases) for executable releases.__ However, I sincerely hope you can check out the source code and send me a pull request.
-
 Simply run it with ```Python 3```. You may need to install some dependencies from PyPi. Make sure to install a JavaScript runtime before you start (like ``Node.js``).
 
 ```
@@ -21,12 +19,14 @@ sudo pip3 install PyExecJS beautifulsoup4
 ```
 Then you should be able to run it happily. To start, type 
 ```
-python3 driveit.py
+python3 driveit.py -u <FlyleafURL>
 ```
-and input the site address of the flyleaf when asked.
-
+If you want to download a given number of latest chapters, use
+```
+python3 driveit.py -u <FlyleafURL> -l <num>
+```
 For example:
-![eg](http://i.imgur.com/Yex2M61.png)
+![eg](https://i.imgur.com/Pc4ctG1.png)
 
 Or if you prefer GUI to CLI:
 ```
@@ -37,9 +37,11 @@ Note you need to have PyQt5 installed to use the GUI version. For Mac users, you
 brew install pyqt5
 ```
 For example:
-![eg_gui](http://i.imgur.com/1n8p0L2.png)
+![eg_gui](https://i.imgur.com/1n8p0L2.png)
 
-It can automatically creates subfolders followed by __chapters__ or __volumes__, fetched picture will be stored in the proper location. For instance, _chapter 1 page 1_ will be stored in ```/name of the comic/Chapter 1/1.jpg```.
+It can automatically creates subfolders followed by __chapters__, fetched picture will be stored in the proper location. For instance, _chapter 1 page 1_ will be stored in ```/name of the comic/Chapter 1/1.jpg```.
+
+__Complied versions for Mac and Windows are available under [Releases](https://github.com/XIAZY/DriveIt/releases).__
 
 New websites can be easily supported. I'm now working on it.
 ## By The Way
@@ -64,14 +66,8 @@ New websites can be easily supported. I'm now working on it.
 
 Copyright 2016 XIAZY
 
-Licensed under the Apache License, Version 2.0 (the "License");
+Licensed under the WTFPL License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+    http://www.wtfpl.net/
