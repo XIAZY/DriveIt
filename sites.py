@@ -93,7 +93,8 @@ class DM5(SharedBase):
 
     def down(self, comic_name, parent_link, link, parent_title, page):
         img_data = self.get_data(link, 'http://www.dm5.com%s' % parent_link)
-        with open(self.get_path(comic_name, parent_title, page, 'jpg'), 'wb+') as file:
+        filename_ext = re.compile('\.([a-zA-Z]*?)\?').search(link).groups()[0]
+        with open(self.get_path(comic_name, parent_title, page, filename_ext), 'wb+') as file:
             file.write(img_data)
 
 
