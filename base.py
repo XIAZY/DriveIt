@@ -1,6 +1,7 @@
 import os
 import re
 from urllib import request, parse
+import threading
 
 
 class SharedBase(object):
@@ -51,3 +52,21 @@ class SharedBase(object):
     def unicodeToURL(self, url):
         url_safe = parse.quote(url, '%/:=&?~#+!$,;\'@()*[]')
         return url_safe
+
+    class multDownload(threading.Thread):
+        def __init__(self,func):
+            threading.Thread.__init__(self)
+            self.jobs=jobs
+        def run(self):
+            self.local=[]
+            print('threed',self.num,'created')
+            time.sleep(1)
+            print('threed',self.num,'end')
+
+"""
+                    th=[mythreed(i) for i in range(5)]
+                    for t in th:
+                        t.start()
+                    for t in th:
+                        t.join()
+"""

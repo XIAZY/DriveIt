@@ -19,6 +19,7 @@ def main_loop(ref_box, download_range):
                 try:
                     link = website_object.get_image_link(parent_link, page)
                     website_object.down(comic_name, parent_link, link, parent_title, page)
+
                     print('%s page %d has been downloaded successfully' % (parent_title, page))
                 except:
                     print('Error occurred when downloading %s, Page %d.' % (parent_title, page))
