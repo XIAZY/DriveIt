@@ -56,15 +56,14 @@ class SharedBase(object):
     class multDownload(threading.Thread):
         def __init__(self,args):
             threading.Thread.__init__(self)
-            self.downfunc=arga['downfunc']
+            self.downfunc=args['downfunc']
             self.comic_name=args['comic_name']
             self.parent_link=args['parent_link']
-            self.link=linargs['link']
+            self.link=args['link']
             self.parent_title=args['parent_title'] 
             self.page=args['page']
         def run(self):
             self.local=[]
-            print('threed',self.num,'created')
-            time.sleep(1)
-            print('threed',self.num,'end')
+            self.downfunc(self.comic_name, self.parent_link, self.link, self.parent_title, self.page)
+            print('%s page %d has been downloaded successfully' % (self.parent_title, self.page))
 
