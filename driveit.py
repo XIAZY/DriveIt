@@ -6,6 +6,7 @@ from base import SharedBase
 
 
 def main_loop(ref_box, download_range):
+    jobs=[]
     if download_range:
         ref_box = ref_box[-download_range:]
     for ref_tuple in ref_box:
@@ -18,11 +19,15 @@ def main_loop(ref_box, download_range):
             else:
                 try:
                     link = website_object.get_image_link(parent_link, page)
-                    website_object.down(comic_name, parent_link, link, parent_title, page)
-
+                    jobs.append({'downfunc':website_object.down,'comic_name':comic_name, 'parent_link':parent_link, 'link':link, 'parent_title':parent_title, 'page':page})
                     print('%s page %d has been downloaded successfully' % (parent_title, page))
                 except:
                     print('Error occurred when downloading %s, Page %d.' % (parent_title, page))
+    downloadthreeds=[mythreed(job) for job in jobs]
+    for downloadthreed in downloadthreeds:
+        downloadthreed.start()
+    for downloadthreed in downloadthreeds:
+        downloadthreed.join()
 
 
 try:

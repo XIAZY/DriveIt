@@ -54,19 +54,17 @@ class SharedBase(object):
         return url_safe
 
     class multDownload(threading.Thread):
-        def __init__(self,func):
+        def __init__(self,args):
             threading.Thread.__init__(self)
-            self.jobs=jobs
+            self.downfunc=arga['downfunc']
+            self.comic_name=args['comic_name']
+            self.parent_link=args['parent_link']
+            self.link=linargs['link']
+            self.parent_title=args['parent_title'] 
+            self.page=args['page']
         def run(self):
             self.local=[]
             print('threed',self.num,'created')
             time.sleep(1)
             print('threed',self.num,'end')
 
-"""
-                    th=[mythreed(i) for i in range(5)]
-                    for t in th:
-                        t.start()
-                    for t in th:
-                        t.join()
-"""
