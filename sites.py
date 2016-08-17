@@ -21,7 +21,7 @@ class Ck101(SharedBase):
 
     def get_parent_info(self):
         self.ref_box = []
-        soup_box = self.flyleaf_soup.findAll('div', {'class': 'relativeRec'})
+        soup_box = self.flyleaf_soup.findAll('downdiv', {'class': 'relativeRec'})
         for border in soup_box:
             for li in border.findAll('li'):
                 ref_link = li.a['href']
@@ -43,11 +43,12 @@ class Ck101(SharedBase):
                 link = img['src']
         return link
 
-    def down(self, comic_name, parent_link, link, parent_title, page):
-        img_data = self.get_data(link, 'http://m.comic.ck101.com%s' % parent_link)
-        file_path = self.get_path(comic_name, parent_title, page, link.split('.')[-1])
+    def down(self, args):
+        img_data = self.get_data(args['link'], 'http://m.comic.ck101.com%s' % args['parent_link'])
+        file_path = self.get_path(args['comic_name'], args['parent_title'], args['page'], args['link'].split('.')[-1])
         with open(file_path, 'wb+') as file:
             file.write(img_data)
+        print('%s page %d has been downloaded successfully' % (args['parent_title'], args['page']))
 
 
 class DM5(SharedBase):
@@ -91,11 +92,12 @@ class DM5(SharedBase):
         link_safe = self.unicodeToURL(link)
         return link_safe
 
-    def down(self, comic_name, parent_link, link, parent_title, page):
-        img_data = self.get_data(link, 'http://www.dm5.com%s' % parent_link)
-        filename_ext = re.compile('\.([a-zA-Z]*?)\?').search(link).groups()[0]
-        with open(self.get_path(comic_name, parent_title, page, filename_ext), 'wb+') as file:
+    def down(self, args):
+        img_data = self.get_data(args['link'], 'http://www.dm5.com%s' % args['parent_link'])
+        filename_ext = re.compile('\.([a-zA-Z]*?)\?').search(args['link']).groups()[0]
+        with open(self.get_path(args['comic_name'], args['parent_title'], args['page'], filename_ext), 'wb+') as file:
             file.write(img_data)
+        print('%s page %d has been downloaded successfully' % (args['parent_title'], args['page']))
 
 
 class Dmzj(SharedBase):
@@ -135,10 +137,12 @@ class Dmzj(SharedBase):
         link = 'http://images.dmzj.com/' + link_list[page - 1]
         return link
 
-    def down(self, comic_name, parent_link, link, parent_title, page):
-        img_data = self.get_data(link, parent_link)
-        with open(self.get_path(comic_name, parent_title, page, link.split('.')[-1]), 'wb+') as file:
+    def down(self, args):
+        img_data = self.get_data(args['link'], args['parent_link'])
+        with open(self.get_path(args['comic_name'], args['parent_title'], args['page'], args['link'].split('.')[-1]),
+                  'wb+') as file:
             file.write(img_data)
+        print('%s page %d has been downloaded successfully' % (args['parent_title'], args['page']))
 
 
 class Ehentai(SharedBase):
@@ -171,7 +175,9 @@ class Ehentai(SharedBase):
         img_link = box.findNext('img')['src']
         return img_link
 
-    def down(self, comic_name, parent_link, link, parent_title, page):
-        img_data = self.get_data(link, parent_link)
-        with open(self.get_path(comic_name, parent_title, page, link.split('.')[-1]), 'wb+') as file:
+    def down(self, args):
+        img_data = self.get_data(args['link'], args['parent_link'])
+        with open(self.get_path(args['comic_name'], args['parent_title'], args['page'], args['link'].split('.')[-1]),
+                  'wb+') as file:
             file.write(img_data)
+        print('%s page %d has been downloaded successfully' % (args['parent_title'], args['page']))
