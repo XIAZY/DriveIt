@@ -16,7 +16,7 @@ class Ck101(SharedBase):
         self.flyleaf_soup = BeautifulSoup(self.flyleaf_data, 'html.parser')
 
     def get_name(self):
-        self.name = re.findall(r'<li><h1\sitemprop="name">(.+?)<\/h1><\/li>', self.flyleaf_data)[0]
+        self.name = self.flyleaf_soup.title.text
         return self.name
 
     def get_parent_info(self):
@@ -58,7 +58,7 @@ class DM5(SharedBase):
         self.flyleaf_soup = BeautifulSoup(self.flyleaf_data, 'html.parser')
 
     def get_name(self):
-        soup_box = self.flyleaf_soup.findAll('h1', {'class': 'inbt_title_h2'})
+        soup_box = self.flyleaf_soup.findAll('h1', {'class': 'new_h2'})
         for i in soup_box:
             self.name = i.text
         return self.name
@@ -76,8 +76,10 @@ class DM5(SharedBase):
 
     def get_page_info(self, parent_link):
         inner_page_data = self.get_data('http://www.dm5.com%s' % parent_link).decode('utf-8')
-        pages = re.findall(r'%s\-p(\d+)?\/\'\>第\d+?页' % parent_link[:-1], inner_page_data)
-        return int(pages[-1])
+        # pages = re.findall(r'%s\-p(\d+)?\/\'\>第\d+?页' % parent_link[:-1], inner_page_data)
+        # return int(pages[-1])
+        page = re.findall(r'var DM5_IMAGE_COUNT=(\d+)', inner_page_data)
+        return int(page[0])
 
     def get_image_link(self, parent_link, page):
         node_script = ''
