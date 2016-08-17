@@ -45,7 +45,7 @@ class SharedBase(object):
 
     def safe(self, str):
         str_safe = str.replace('/', '').replace('\\', '').replace('*', '').replace('?', '').replace('<', '').replace(
-            '>', '').replace('|', '').replace(':', '').replace('"', '')
+                '>', '').replace('|', '').replace(':', '').replace('"', '')
         return str_safe
 
     def unicodeToURL(self, url):
