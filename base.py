@@ -1,7 +1,6 @@
 import os
 import re
 from urllib import request, parse
-import threading
 
 
 class SharedBase(object):
@@ -46,24 +45,9 @@ class SharedBase(object):
 
     def safe(self, str):
         str_safe = str.replace('/', '').replace('\\', '').replace('*', '').replace('?', '').replace('<', '').replace(
-                '>', '').replace('|', '').replace(':', '').replace('"', '')
+            '>', '').replace('|', '').replace(':', '').replace('"', '')
         return str_safe
 
     def unicodeToURL(self, url):
         url_safe = parse.quote(url, '%/:=&?~#+!$,;\'@()*[]')
         return url_safe
-
-    class multDownload(threading.Thread):
-        def __init__(self,args):
-            threading.Thread.__init__(self)
-            self.downfunc=args['downfunc']
-            self.comic_name=args['comic_name']
-            self.parent_link=args['parent_link']
-            self.link=args['link']
-            self.parent_title=args['parent_title'] 
-            self.page=args['page']
-        def run(self):
-            self.local=[]
-            self.downfunc(self.comic_name, self.parent_link, self.link, self.parent_title, self.page)
-            print('%s page %d has been downloaded successfully' % (self.parent_title, self.page))
-

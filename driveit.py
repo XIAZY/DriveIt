@@ -1,6 +1,7 @@
 import getopt
 import glob
 import sys
+import multiprocessing
 
 from base import SharedBase
 
@@ -11,7 +12,7 @@ def main_loop(ref_box, download_range):
     for ref_tuple in ref_box:
         parent_title, parent_link = ref_tuple
         total_page = website_object.get_page_info(parent_link)
-        jobs=list()
+        jobs = list()
         for page in range(1, total_page + 1):
             vague_path = website_object.get_path(comic_name, parent_title, page) + '*'
             if glob.glob(vague_path):
@@ -19,21 +20,20 @@ def main_loop(ref_box, download_range):
             else:
                 try:
                     link = website_object.get_image_link(parent_link, page)
-                    jobs.append({'downfunc':website_object.down,'comic_name':comic_name, 'parent_link':parent_link, 'link':link, 'parent_title':parent_title, 'page':page})
-                    
-  
+                    jobs.append({'comic_name': comic_name, 'parent_link': parent_link, 'link': link,
+                                 'parent_title': parent_title, 'page': page})
+
                 except:
                     print('Error occurred when downloading %s, Page %d.' % (parent_title, page))
-        downloadthreeds=[base.multDownload(job) for job in jobs]
-        for downloadthreed in downloadthreeds:
-            downloadthreed.start()
-        for downloadthreed in downloadthreeds:
-            downloadthreed.join()
-
+        pool = multiprocessing.Pool(download_limit)
+        pool.map(website_object.down, jobs)
+        pool.close()
+        pool.join()
 
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], 'hu:l:', ['url=', 'latest='])
+    opts, args = getopt.getopt(sys.argv[1:], 'hu:l:t:', ['url=', 'latest=', 'threading='])
+    download_limit = 1
     if opts == []:
         raise getopt.GetoptError('No argument provided.')
     for opt, arg in opts:
@@ -42,16 +42,18 @@ try:
             print('driveit.py\n\nUsage: python3 driveit.py [-u <URL>] [-l <number>] [-h]')
             print('Options:\n\t-u\t Download comics from specific origin')
             print('\t-l\tOptional. Download latest x chapters from origin')
+            print('\t-t\tOptional. Max download threading, 1 for default')
             print('\t-h\tPrint this help')
             sys.exit()
         elif opt in ('-u', '--url'):
             user_input_url = arg
         elif opt in ('-l', '--latest'):
             fetch_latest = int(arg)
+        elif opt in ('-t', '--threading'):
+            download_limit = arg
 except getopt.GetoptError as e:
     print('%s\n\nUsage: python3 driveit.py -u <URL>\nSee driveit.py -h for details' % e)
     sys.exit(2)
-
 
 base = SharedBase(user_input_url)
 if base.get_site_name() is 'dm5':
