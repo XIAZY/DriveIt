@@ -21,7 +21,7 @@ class Ck101(SharedBase):
 
     def get_parent_info(self):
         self.ref_box = []
-        soup_box = self.flyleaf_soup.findAll('downdiv', {'class': 'relativeRec'})
+        soup_box = self.flyleaf_soup.findAll('div', {'class': 'relativeRec'})
         for border in soup_box:
             for li in border.findAll('li'):
                 ref_link = li.a['href']
@@ -59,7 +59,7 @@ class DM5(SharedBase):
         self.flyleaf_soup = BeautifulSoup(self.flyleaf_data, 'html.parser')
 
     def get_name(self):
-        soup_box = self.flyleaf_soup.findAll('h1', {'class': 'inbt_title_h2'})
+        soup_box = self.flyleaf_soup.findAll('h1', {'class': 'new_h2'})
         for i in soup_box:
             self.name = i.text
         return self.name
