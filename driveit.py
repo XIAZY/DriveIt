@@ -50,7 +50,7 @@ try:
         elif opt in ('-l', '--latest'):
             fetch_latest = int(arg)
         elif opt in ('-t', '--threading'):
-            download_limit = arg
+            download_limit = int(arg)
 except getopt.GetoptError as e:
     print('%s\n\nUsage: python3 driveit.py -u <URL>\nSee driveit.py -h for details' % e)
     sys.exit(2)
