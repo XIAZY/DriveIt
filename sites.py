@@ -16,7 +16,7 @@ class Ck101(SharedBase):
         self.flyleaf_soup = BeautifulSoup(self.flyleaf_data, 'html.parser')
 
     def get_name(self):
-        self.name = re.findall(r'<li><h1\sitemprop="name">(.+?)<\/h1><\/li>', self.flyleaf_data)[0]
+        self.name = self.flyleaf_soup.title.text
         return self.name
 
     def get_parent_info(self):
@@ -43,12 +43,11 @@ class Ck101(SharedBase):
                 link = img['src']
         return link
 
-    def down(self, args):
-        img_data = self.get_data(args['link'], 'http://m.comic.ck101.com%s' % args['parent_link'])
-        file_path = self.get_path(args['comic_name'], args['parent_title'], args['page'], args['link'].split('.')[-1])
+    def down(self, comic_name, parent_link, link, parent_title, page):
+        img_data = self.get_data(link, 'http://m.comic.ck101.com%s' % parent_link)
+        file_path = self.get_path(comic_name, parent_title, page, link.split('.')[-1])
         with open(file_path, 'wb+') as file:
             file.write(img_data)
-        print('%s page %d has been downloaded successfully' % (args['parent_title'], args['page']))
 
 
 class DM5(SharedBase):
@@ -77,8 +76,10 @@ class DM5(SharedBase):
 
     def get_page_info(self, parent_link):
         inner_page_data = self.get_data('http://www.dm5.com%s' % parent_link).decode('utf-8')
-        pages = re.findall(r'%s\-p(\d+)?\/\'\>第\d+?页' % parent_link[:-1], inner_page_data)
-        return int(pages[-1])
+        # pages = re.findall(r'%s\-p(\d+)?\/\'\>第\d+?页' % parent_link[:-1], inner_page_data)
+        # return int(pages[-1])
+        page = re.findall(r'var DM5_IMAGE_COUNT=(\d+)', inner_page_data)
+        return int(page[0])
 
     def get_image_link(self, parent_link, page):
         node_script = ''
@@ -92,12 +93,11 @@ class DM5(SharedBase):
         link_safe = self.unicodeToURL(link)
         return link_safe
 
-    def down(self, args):
-        img_data = self.get_data(args['link'], 'http://www.dm5.com%s' % args['parent_link'])
-        filename_ext = re.compile('\.([a-zA-Z]*?)\?').search(args['link']).groups()[0]
-        with open(self.get_path(args['comic_name'], args['parent_title'], args['page'], filename_ext), 'wb+') as file:
+    def down(self, comic_name, parent_link, link, parent_title, page):
+        img_data = self.get_data(link, 'http://www.dm5.com%s' % parent_link)
+        filename_ext = re.compile('\.([a-zA-Z]*?)\?').search(link).groups()[0]
+        with open(self.get_path(comic_name, parent_title, page, filename_ext), 'wb+') as file:
             file.write(img_data)
-        print('%s page %d has been downloaded successfully' % (args['parent_title'], args['page']))
 
 
 class Dmzj(SharedBase):
@@ -137,12 +137,10 @@ class Dmzj(SharedBase):
         link = 'http://images.dmzj.com/' + link_list[page - 1]
         return link
 
-    def down(self, args):
-        img_data = self.get_data(args['link'], args['parent_link'])
-        with open(self.get_path(args['comic_name'], args['parent_title'], args['page'], args['link'].split('.')[-1]),
-                  'wb+') as file:
+    def down(self, comic_name, parent_link, link, parent_title, page):
+        img_data = self.get_data(link, parent_link)
+        with open(self.get_path(comic_name, parent_title, page, link.split('.')[-1]), 'wb+') as file:
             file.write(img_data)
-        print('%s page %d has been downloaded successfully' % (args['parent_title'], args['page']))
 
 
 class Ehentai(SharedBase):
@@ -175,9 +173,7 @@ class Ehentai(SharedBase):
         img_link = box.findNext('img')['src']
         return img_link
 
-    def down(self, args):
-        img_data = self.get_data(args['link'], args['parent_link'])
-        with open(self.get_path(args['comic_name'], args['parent_title'], args['page'], args['link'].split('.')[-1]),
-                  'wb+') as file:
+    def down(self, comic_name, parent_link, link, parent_title, page):
+        img_data = self.get_data(link, parent_link)
+        with open(self.get_path(comic_name, parent_title, page, link.split('.')[-1]), 'wb+') as file:
             file.write(img_data)
-        print('%s page %d has been downloaded successfully' % (args['parent_title'], args['page']))
