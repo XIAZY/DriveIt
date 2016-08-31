@@ -9,34 +9,33 @@ from base import SharedBase
 def main_loop(ref_box, download_range):
     if download_range:
         ref_box = ref_box[-download_range:]
+
     for ref_tuple in ref_box:
         parent_title, parent_link = ref_tuple
         total_page = website_object.get_page_info(parent_link)
-        jobs_comic_name = list()
-        jobs_parent_link = list()
-        jobs_link = list()
-        jobs_parent_title = list()
-        jobs_page = list()
+
+        jobs = list()
         for page in range(1, total_page + 1):
-            vague_path = website_object.get_path(comic_name, parent_title, page) + '*'
-            if glob.glob(vague_path):
-                print('%s page %d already existed.' % (parent_title, page))
-            else:
-                try:
-                    link = website_object.get_image_link(parent_link, page)
-                    jobs_comic_name.append(comic_name)
-                    jobs_parent_link.append(parent_link)
-                    jobs_link.append(link)
-                    jobs_parent_title.append(parent_title)
-                    jobs_page.append(page)
-                except:
-                    print('Error occurred when downloading %s, Page %d.' % (parent_title, page))
+            jobs.append((parent_title, parent_link, page))
         pool_size = download_limit
         pool = ThreadPool(processes=pool_size)
-        pool_outputs = pool.map(down_wrapper,
-                                zip(jobs_comic_name, jobs_parent_link, jobs_link, jobs_parent_title, jobs_page))
+        pool.map(loop_thread, jobs)
         pool.close()
         pool.join()
+
+
+def loop_thread(args):
+    parent_title, parent_link, page = args
+    vague_path = website_object.get_path(comic_name, parent_title, page) + '*'
+    if glob.glob(vague_path):
+        print('%s page %d already existed.' % (parent_title, page))
+    else:
+        try:
+            link = website_object.get_image_link(parent_link, page)
+            website_object.down(comic_name, parent_link, link, parent_title, page)
+            print('%s page %d has been downloaded successfully' % (parent_title, page))
+        except:
+            print('Error occurred when downloading %s, Page %d.' % (parent_title, page))
 
 
 try:
@@ -47,7 +46,8 @@ try:
         fetch_latest = False
         download_limit = 1
         if opt == '-h':
-            print('driveit.py\n\nUsage: python3 driveit.py [-u <URL>] [-l <number>] [-t <number>] [-h]')
+
+            print('driveit.py\n\nUsage: python3 driveit.py [-u <URL>] [-l <number>] [-h]')
             print('Options:\n\t-u\tDownload comics from specific origin')
             print('\t-l\tOptional. Download latest x chapters from origin')
             print('\t-t\tOptional. Max download concurrent number, 1 for default')
