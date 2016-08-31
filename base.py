@@ -19,10 +19,15 @@ class SharedBase(object):
         else:
             raise NameError(self.url)
 
-    def get_data(self, url, referrer=''):
-        self.webheader = {
-            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4',
-            'Referer': referrer}
+    def get_data(self, url, referrer='', is_destop=False):
+        if not is_destop:
+            self.webheader = {
+                'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4',
+                'Referer': referrer}
+        else:
+            self.webheader = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36',
+                'Referer': referrer}
         req = request.Request(url=url, headers=self.webheader)
         web_page = request.urlopen(req)
         page_data = web_page.read()
