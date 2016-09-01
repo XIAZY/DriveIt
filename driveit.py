@@ -1,13 +1,13 @@
-import getopt
+# import getopt
+import argparse
 import glob
-import sys
 from multiprocessing.pool import ThreadPool
+
 from base import SharedBase
 
 
 def main_loop(ref_box, download_range):
-    if download_range:
-        ref_box = ref_box[-download_range:]
+    ref_box = ref_box[-download_range:]
 
     for ref_tuple in ref_box:
         parent_title, parent_link = ref_tuple
@@ -36,29 +36,50 @@ def loop_thread(args):
             print('Error occurred when downloading %s, Page %d.' % (parent_title, page))
 
 
-try:
-    opts, args = getopt.getopt(sys.argv[1:], 'hu:l:t:', ['url=', 'latest=', 'threading='])
-    if opts == []:
-        raise getopt.GetoptError('No argument provided.')
-    for opt, arg in opts:
-        fetch_latest = False
-        download_limit = 1
-        if opt == '-h':
-            print('driveit.py\n\nUsage: python3 driveit.py [-u <URL>] [-l <number>] [-h]')
-            print('Options:\n\t-u\tDownload comics from specific origin')
-            print('\t-l\tOptional. Download latest x chapters from origin')
-            print('\t-t\tOptional. Max download concurrent number, 1 for default')
-            print('\t-h\tPrint this help')
-            sys.exit()
-        elif opt in ('-u', '--url'):
-            user_input_url = arg
-        elif opt in ('-l', '--latest'):
-            fetch_latest = int(arg)
-        elif opt in ('-t', '--threading'):
-            download_limit = int(arg)
-except getopt.GetoptError as e:
-    print('%s\n\nUsage: python3 driveit.py -u <URL>\nSee driveit.py -h for details' % e)
-    sys.exit(2)
+# legacy options
+# try:
+#     opts, args = getopt.getopt(sys.argv[1:], 'hu:l:t:', ['url=', 'latest=', 'threading='])
+#     if opts == []:
+#         raise getopt.GetoptError('No argument provided.')
+#     for opt, arg in opts:
+#         fetch_latest = False
+#         download_limit = 1
+#         if opt == '-h':
+#             print('driveit.py\n\nUsage: python3 driveit.py [-u <URL>] [-l <number>] [-h]')
+#             print('Options:\n\t-u\tDownload comics from specific origin')
+#             print('\t-l\tOptional. Download latest x chapters from origin')
+#             print('\t-t\tOptional. Max download concurrent number, 1 for default')
+#             print('\t-h\tPrint this help')
+#             sys.exit()
+#         elif opt in ('-u', '--url'):
+#             user_input_url = arg
+#         elif opt in ('-l', '--latest'):
+#             fetch_latest = int(arg)
+#         elif opt in ('-t', '--threading'):
+#             download_limit = int(arg)
+# except getopt.GetoptError as e:
+#     print('%s\n\nUsage: python3 driveit.py -u <URL>\nSee driveit.py -h for details' % e)
+#     sys.exit(2)
+
+def argparser():
+    parser = argparse.ArgumentParser(description='A multithreading comic crawler.')
+    parser.add_argument('url', help='URL of the comic\'s cover page')
+    parser.add_argument('-l', '--latest', help='Download latest x chapters from origin')
+    parser.add_argument('-t', '--thread', help='Number of threads. Default to be 1')
+    return parser
+
+
+parser = argparser()
+args = parser.parse_args()
+user_input_url = args.url
+if args.thread:
+    download_limit = int(args.thread)
+else:
+    download_limit = 1
+if args.latest:
+    fetch_latest = int(args.latest)
+else:
+    fetch_latest = 0
 
 base = SharedBase(user_input_url)
 if base.get_site_name() is 'dm5':

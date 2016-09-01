@@ -12,21 +12,35 @@ DriveIt is a new crawler supports multiple websites, for now it supports
 ## Overview
 This project is still under development. More features will be added later.
 ## Usage
-Simply run it with ```Python 3```. You may need to install some dependencies from PyPi. Make sure to install a JavaScript runtime before you start (like ``Node.js``).
+Simply run it with ```Python 3```. You may need to install some dependencies from PyPi. Make sure to install a JavaScript runtime before you start (like ``Node.js`` or Microsoft's ``JScript``).
 
 ```
 sudo pip3 install PyExecJS beautifulsoup4
 ```
-Then you should be able to run it happily. To start, type 
+Then you should be able to run it happily. To simply start, type 
 ```
-python3 driveit.py -u <FlyleafURL>
+python3 driveit.py <FlyleafURL>
 ```
-If you want to download a given number of latest chapters, use
+Advanced usage:
+
 ```
-python3 driveit.py -u <FlyleafURL> -l <num>
+usage: driveit.py [-h] [-l LATEST] [-t THREAD] url
+
+A multithreading comic crawler.
+
+positional arguments:
+  url                   URL of the comic's cover page
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -l LATEST, --latest LATEST
+                        Download latest x chapters from origin
+  -t THREAD, --thread THREAD
+                        Number of threads. Default to be 1
 ```
+
 For example:
-![eg](https://i.imgur.com/Pc4ctG1.png)
+![eg](https://i.imgur.com/VXW0oGB.png)
 
 Or if you prefer GUI to CLI:
 ```
