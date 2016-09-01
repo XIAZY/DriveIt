@@ -40,9 +40,15 @@ class SharedBase(object):
         file_path = os.path.join(path, filename)
         if os.path.exists(path) is False and os.path.exists(path_safe) is False:
             try:
-                os.makedirs(path)
+                try:
+                    os.makedirs(path)
+                except:
+                    pass
             except NotADirectoryError as e:
-                os.makedirs(path_safe)
+                try:
+                    os.makedirs(path_safe)
+                except:
+                    pass
         if os.path.exists(path) is True:
             return file_path
         else:
@@ -50,7 +56,7 @@ class SharedBase(object):
 
     def safe(self, str):
         str_safe = str.replace('/', '').replace('\\', '').replace('*', '').replace('?', '').replace('<', '').replace(
-                '>', '').replace('|', '').replace(':', '').replace('"', '')
+            '>', '').replace('|', '').replace(':', '').replace('"', '')
         return str_safe
 
     def unicodeToURL(self, url):
