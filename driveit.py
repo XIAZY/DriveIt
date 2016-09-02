@@ -31,13 +31,24 @@ def loop_thread(args):
     else:
         try:
             link = website_object.get_image_link(parent_link, page)
-            website_object.down(comic_name, parent_link,
-                                link, parent_title, page)
-            print('%s page %d has been downloaded successfully' %
-                  (parent_title, page))
+            # website_object.down(comic_name, parent_link,
+            #                     link, parent_title, page)
+            # print('%s page %d has been downloaded successfully' %
+            #       (parent_title, page))
         except:
-            print('Error occurred when downloading %s, Page %d.' %
-                  (parent_title, page))
+            pass
+            # print('Error occurred when downloading %s, Page %d.' %
+            #       (parent_title, page))
+
+
+def down_wrapper(args):
+    try:
+        website_object.down(*args)
+        print('%s page %d has been downloaded successfully' % (
+            args[3], args[4]))  # args[3] is parent_title and args[4] is page
+    except:
+        print('Error occurred when downloading %s, Page %d.' %
+              (args[3], args[4]))
 
 
 # legacy options
@@ -64,6 +75,7 @@ def loop_thread(args):
 # except getopt.GetoptError as e:
 #     print('%s\n\nUsage: python3 driveit.py -u <URL>\nSee driveit.py -h for details' % e)
 #     sys.exit(2)
+
 
 def argparser():
     parser = argparse.ArgumentParser(
@@ -95,19 +107,15 @@ elif base.get_site_name() is 'ck101':
     from sites import Ck101 as SiteClass
 elif base.get_site_name() is 'dmzj':
     from sites import Dmzj as SiteClass
+elif base.get_site_name() is 'manhua_dmzj':
+    from sites import manhua_Dmzj as SiteClass
 elif base.get_site_name() is 'ehentai':
     from sites import Ehentai as SiteClass
+else:
+    print('not match any site available')
+    exit()
 try:
     website_object = SiteClass(user_input_url)
-
-    def down_wrapper(args):
-        try:
-            website_object.down(*args)
-            print('%s page %d has been downloaded successfully' % (
-                args[3], args[4]))  # args[3] is parent_title and args[4] is page
-        except:
-            print('Error occurred when downloading %s, Page %d.' %
-                  (args[3], args[4]))
 
     comic_name = website_object.get_name()
     ref_box = website_object.get_parent_info()

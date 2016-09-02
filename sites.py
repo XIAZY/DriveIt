@@ -8,6 +8,8 @@ from bs4 import BeautifulSoup
 
 from base import SharedBase
 
+from pprint import pprint
+
 
 class Ck101(SharedBase):
     def __init__(self, url):
@@ -130,6 +132,50 @@ class Dmzj(SharedBase):
         result = execjs.eval(inner_script_refined)
         self.info_dict = json.loads(result.replace('var pages=pages=\'', '').rstrip('\';'))
         return int(self.info_dict['sum_pages'])
+
+    def get_image_link(self, parent_link, page):
+        link_combined = self.info_dict['page_url']
+        link_list = link_combined.split('\r\n')
+        link = 'http://images.dmzj.com/' + link_list[page - 1]
+        return link
+
+    def down(self, comic_name, parent_link, link, parent_title, page):
+        img_data = self.get_data(link, parent_link)
+        with open(self.get_path(comic_name, parent_title, page, link.split('.')[-1]), 'wb+') as file:
+            file.write(img_data)
+
+
+class manhua_Dmzj(SharedBase):
+    def __init__(self, url):
+        self.flyleaf_url = url
+        self.flyleaf_data = self.get_data(self.flyleaf_url).decode('utf-8')
+        self.flyleaf_soup = BeautifulSoup(self.flyleaf_data, 'html.parser')
+
+    def get_name(self):
+        soup_box = self.flyleaf_soup.findAll('h1')
+        for border in soup_box:
+            self.name = border.text
+        return self.name
+
+    def get_parent_info(self):
+        self.ref_box = []
+        soup_box = self.flyleaf_soup.findAll('div', class_=re.compile("cartoon_online_border.*"))
+        for border in soup_box:
+            for li in border.findAll('li'):
+                ref_link = li.a['href']
+                ref_title = li.text
+                self.ref_box.append((ref_title, ref_link))
+        return self.ref_box
+
+    def get_page_info(self, parent_link):
+        inner_page_data = self.get_data('http://manhua.dmzj.com%s' % parent_link, is_destop=True).decode('utf-8')
+        inner_page_soup = BeautifulSoup(inner_page_data, 'html.parser')
+        inner_script = inner_page_soup.find('script', {'type': 'text/javascript'})
+        pprint(inner_script.text)
+        inner_script_refined = inner_script.text.split('\n')[3].strip().replace('eval(', '')[:-1]
+        result = execjs.eval(inner_script_refined)
+        self.image_list = json.loads(result.replace('var pages=pages=\'', '').rstrip('\';'))
+        return len(self.image_list)
 
     def get_image_link(self, parent_link, page):
         link_combined = self.info_dict['page_url']
