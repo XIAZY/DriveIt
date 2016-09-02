@@ -12,7 +12,6 @@ def main_loop(ref_box, download_range):
     for ref_tuple in ref_box:
         parent_title, parent_link = ref_tuple
         total_page = website_object.get_page_info(parent_link)
-
         jobs = list()
         for page in range(1, total_page + 1):
             jobs.append((parent_title, parent_link, page))
@@ -31,24 +30,10 @@ def loop_thread(args):
     else:
         try:
             link = website_object.get_image_link(parent_link, page)
-            # website_object.down(comic_name, parent_link,
-            #                     link, parent_title, page)
-            # print('%s page %d has been downloaded successfully' %
-            #       (parent_title, page))
+            website_object.down(comic_name, parent_link, link, parent_title, page)
+            print('%s page %d has been downloaded successfully' % (parent_title, page))
         except:
-            pass
-            # print('Error occurred when downloading %s, Page %d.' %
-            #       (parent_title, page))
-
-
-def down_wrapper(args):
-    try:
-        website_object.down(*args)
-        print('%s page %d has been downloaded successfully' % (
-            args[3], args[4]))  # args[3] is parent_title and args[4] is page
-    except:
-        print('Error occurred when downloading %s, Page %d.' %
-              (args[3], args[4]))
+            print('Error occurred when downloading %s, Page %d.' % (parent_title, page))
 
 
 # legacy options
@@ -76,15 +61,11 @@ def down_wrapper(args):
 #     print('%s\n\nUsage: python3 driveit.py -u <URL>\nSee driveit.py -h for details' % e)
 #     sys.exit(2)
 
-
 def argparser():
-    parser = argparse.ArgumentParser(
-        description='A multithreading comic crawler.')
+    parser = argparse.ArgumentParser(description='A multithreading comic crawler.')
     parser.add_argument('url', help='URL of the comic\'s cover page')
-    parser.add_argument(
-        '-l', '--latest', help='Download latest x chapters from origin')
-    parser.add_argument(
-        '-t', '--thread', help='Number of threads. Default to be 1')
+    parser.add_argument('-l', '--latest', help='Download latest x chapters from origin')
+    parser.add_argument('-t', '--thread', help='Number of threads. Default to be 1')
     return parser
 
 
@@ -112,11 +93,10 @@ elif base.get_site_name() is 'manhua_dmzj':
 elif base.get_site_name() is 'ehentai':
     from sites import Ehentai as SiteClass
 else:
-    print('not match any site available')
+    print('this site not available yet')
     exit()
 try:
     website_object = SiteClass(user_input_url)
-
     comic_name = website_object.get_name()
     ref_box = website_object.get_parent_info()
     print('%s, total %d chapters detected.' % (comic_name, len(ref_box)))
