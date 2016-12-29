@@ -62,8 +62,13 @@ elif base.get_site_name() is 'ck101':
     from sites import Ck101 as SiteClass
 elif base.get_site_name() is 'dmzj':
     from sites import Dmzj as SiteClass
+elif base.get_site_name() is 'manhua_dmzj':
+    from sites import manhua_Dmzj as SiteClass
 elif base.get_site_name() is 'ehentai':
     from sites import Ehentai as SiteClass
+else:
+    print('this site not available yet')
+    exit()
 try:
     website_object = SiteClass(user_input_url)
     comic_name = website_object.get_name()
