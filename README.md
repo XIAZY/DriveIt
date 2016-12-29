@@ -1,3 +1,7 @@
+__I hope I can pack the executables binaries for you, but PyInstaller just doesn't work and resulting errors, likely due to the bugs of upstream developers.__
+
+__This can tell us one thing: again, Python is not a good choice if you want to write GUI apps.__
+
 # DriveIt
 DriveIt is a new crawler supports multiple websites, for now it supports 
 
