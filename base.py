@@ -1,6 +1,8 @@
 import os
 import re
-from urllib import request, parse
+from urllib import parse
+
+import requests
 
 
 class SharedBase(object):
@@ -19,19 +21,19 @@ class SharedBase(object):
         else:
             raise NameError(self.url)
 
-    def get_data(self, url, referrer='', is_destop=False):
+    def get_data(self, url, referrer='', is_destop=False, is_file=False):
         if not is_destop:
             self.webheader = {
                 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4',
-                'Referer': referrer}
+                'Referer': referrer, 'Accept-Encoding': 'gzip, deflate, sdch'}
         else:
             self.webheader = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36',
-                'Referer': referrer}
-        req = request.Request(url=url, headers=self.webheader)
-        web_page = request.urlopen(req)
-        page_data = web_page.read()
-        return page_data
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36',
+                'Referer': referrer, 'Accept-Encoding': 'gzip, deflate, sdch'}
+        page_data = requests.get(url=url, headers=self.webheader)
+        if is_file:
+            return page_data.content
+        return page_data.text
 
     def get_path(self, name, parent, page, ext=''):
         filename = str(page) + '.' + ext

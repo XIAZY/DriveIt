@@ -44,7 +44,7 @@ class Ck101(SharedBase):
         return link
 
     def down(self, comic_name, parent_link, link, parent_title, page):
-        img_data = self.get_data(link, 'http://m.comic.ck101.com%s' % parent_link)
+        img_data = self.get_data(link, 'http://m.comic.ck101.com%s' % parent_link, is_file=True)
         file_path = self.get_path(comic_name, parent_title, page, link.split('.')[-1])
         with open(file_path, 'wb+') as file:
             file.write(img_data)
@@ -94,7 +94,7 @@ class DM5(SharedBase):
         return link_safe
 
     def down(self, comic_name, parent_link, link, parent_title, page):
-        img_data = self.get_data(link, 'http://www.dm5.com%s' % parent_link)
+        img_data = self.get_data(link, 'http://www.dm5.com%s' % parent_link, is_file=True)
         filename_ext = re.compile('\.([a-zA-Z]*?)\?').search(link).groups()[0]
         with open(self.get_path(comic_name, parent_title, page, filename_ext), 'wb+') as file:
             file.write(img_data)
@@ -103,7 +103,8 @@ class DM5(SharedBase):
 class Dmzj(SharedBase):
     def __init__(self, url):
         self.flyleaf_url = url
-        self.flyleaf_data = self.get_data(self.flyleaf_url).decode('utf-8')
+        self.flyleaf_data = self.get_data(self.flyleaf_url)
+        self.flyleaf_soup = BeautifulSoup(self.flyleaf_data, 'html.parser')
         self.flyleaf_soup = BeautifulSoup(self.flyleaf_data, 'html.parser')
 
     def get_name(self):
@@ -123,7 +124,7 @@ class Dmzj(SharedBase):
         return self.ref_box
 
     def get_page_info(self, parent_link):
-        inner_page_data = self.get_data(parent_link).decode('utf-8')
+        inner_page_data = self.get_data(parent_link)
         inner_page_soup = BeautifulSoup(inner_page_data, 'html.parser')
         inner_script = inner_page_soup.find('script', {'type': 'text/javascript'})
         inner_script_refined = inner_script.text.split('\n')[3].strip().replace('eval(', '')[:-1]
@@ -138,7 +139,7 @@ class Dmzj(SharedBase):
         return link
 
     def down(self, comic_name, parent_link, link, parent_title, page):
-        img_data = self.get_data(link, parent_link)
+        img_data = self.get_data(link, parent_link, is_file=True)
         with open(self.get_path(comic_name, parent_title, page, link.split('.')[-1]), 'wb+') as file:
             file.write(img_data)
 
@@ -174,6 +175,6 @@ class Ehentai(SharedBase):
         return img_link
 
     def down(self, comic_name, parent_link, link, parent_title, page):
-        img_data = self.get_data(link, parent_link)
+        img_data = self.get_data(link, parent_link, is_file=True)
         with open(self.get_path(comic_name, parent_title, page, link.split('.')[-1]), 'wb+') as file:
             file.write(img_data)

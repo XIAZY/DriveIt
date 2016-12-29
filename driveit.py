@@ -1,4 +1,3 @@
-# import getopt
 import argparse
 import glob
 from multiprocessing.pool import ThreadPool
@@ -35,31 +34,6 @@ def loop_thread(args):
         except:
             print('Error occurred when downloading %s, Page %d.' % (parent_title, page))
 
-
-# legacy options
-# try:
-#     opts, args = getopt.getopt(sys.argv[1:], 'hu:l:t:', ['url=', 'latest=', 'threading='])
-#     if opts == []:
-#         raise getopt.GetoptError('No argument provided.')
-#     for opt, arg in opts:
-#         fetch_latest = False
-#         download_limit = 1
-#         if opt == '-h':
-#             print('driveit.py\n\nUsage: python3 driveit.py [-u <URL>] [-l <number>] [-h]')
-#             print('Options:\n\t-u\tDownload comics from specific origin')
-#             print('\t-l\tOptional. Download latest x chapters from origin')
-#             print('\t-t\tOptional. Max download concurrent number, 1 for default')
-#             print('\t-h\tPrint this help')
-#             sys.exit()
-#         elif opt in ('-u', '--url'):
-#             user_input_url = arg
-#         elif opt in ('-l', '--latest'):
-#             fetch_latest = int(arg)
-#         elif opt in ('-t', '--threading'):
-#             download_limit = int(arg)
-# except getopt.GetoptError as e:
-#     print('%s\n\nUsage: python3 driveit.py -u <URL>\nSee driveit.py -h for details' % e)
-#     sys.exit(2)
 
 def argparser():
     parser = argparse.ArgumentParser(description='A multithreading comic crawler.')
