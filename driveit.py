@@ -56,18 +56,19 @@ else:
     fetch_latest = 0
 
 base = SharedBase(user_input_url)
-if base.get_site_name() is 'dm5':
-    from sites import DM5 as SiteClass
-elif base.get_site_name() is 'ck101':
-    from sites import Ck101 as SiteClass
-elif base.get_site_name() is 'dmzj':
-    from sites import Dmzj as SiteClass
-elif base.get_site_name() is 'manhua_dmzj':
-    from sites import manhua_Dmzj as SiteClass
-elif base.get_site_name() is 'ehentai':
-    from sites import Ehentai as SiteClass
-else:
-    print('this site not available yet')
+try:
+    if base.get_site_name() is 'dm5':
+        from sites import DM5 as SiteClass
+    elif base.get_site_name() is 'ck101':
+        from sites import Ck101 as SiteClass
+    elif base.get_site_name() is 'dmzj':
+        from sites import Dmzj as SiteClass
+    elif base.get_site_name() is 'manhua_dmzj':
+        from sites import manhua_Dmzj as SiteClass
+    elif base.get_site_name() is 'ehentai':
+        from sites import Ehentai as SiteClass
+except NameError:
+    print('Website illegal or nor supported yet.')
     exit()
 try:
     website_object = SiteClass(user_input_url)
