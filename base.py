@@ -37,10 +37,14 @@ class SharedBase(object):
             return page_data.content
         return page_data.text
 
-    def get_path(self, name, parent, page, ext=''):
+    def get_path(self, name, parent, page, ext='', dir=''):
         filename = str(page) + '.' + ext
-        path = os.path.join(os.getcwd(), name, str(parent))
-        path_safe = os.path.join(os.getcwd(), self.safe(name), self.safe(str(parent)))
+        if dir != '':
+            path = os.path.join(dir, name, str(parent))
+            path_safe = os.path.join(dir, self.safe(name), self.safe(str(parent)))
+        else:
+            path = os.path.join(os.getcwd(), name, str(parent))
+            path_safe = os.path.join(os.getcwd(), self.safe(name), self.safe(str(parent)))
         file_path = os.path.join(path, filename)
         if os.path.exists(path) is False and os.path.exists(path_safe) is False:
             try:
