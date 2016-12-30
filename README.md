@@ -1,7 +1,6 @@
-__I hope I can pack the executables binaries for you, but PyInstaller just doesn't work and resulting errors, likely due to the bugs of upstream developers.__
+__If you just want to run this app, download complied executable files for Mac and Windows [here](https://github.com/XIAZY/DriveIt/releases)!__
 
-__This can tell us one thing: again, Python is not a good choice if you want to write GUI apps.__
-
+Icon designed by [Maxim Basinski](http://www.flaticon.com/authors/maxim-basinski), licensed by CC 3.0 BY.
 # DriveIt
 DriveIt is a new crawler supports multiple websites, for now it supports 
 
