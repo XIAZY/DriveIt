@@ -157,7 +157,7 @@ class WorkingThread(QThread):
             pool.map(self.loop_thread, jobs)
             pool.close()
             pool.join()
-            self.stop_signal.emit('All Done!')
+        self.stop_signal.emit('All Done!')
 
     def loop_thread(self, args):
         parent_title, parent_link, page, total_page = args
