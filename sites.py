@@ -179,8 +179,8 @@ class manhua_Dmzj(SharedBase):
         link = 'http://images.dmzj.com/' + self.image_list[page - 1]
         return link
 
-    def down(self, comic_name, parent_link, link, parent_title, page, dir):
-        img_data = self.get_data(link, 'http://manhua.dmzj.com' + parent_link, is_destop=True)
+    def down(self, comic_name, parent_link, link, parent_title, page, dir=''):
+        img_data = self.get_data(link, 'http://manhua.dmzj.com' + parent_link, is_destop=True, is_file=True)
         with open(self.get_path(comic_name, parent_title, page, link.split('.')[-1], dir=dir), 'wb+') as file:
             file.write(img_data)
 
