@@ -5,15 +5,15 @@ from multiprocessing.pool import ThreadPool
 
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
-from PyQt5.uic import loadUi
 
 from base import SharedBase
+from ui import Ui_MainWindow
 
 
-class MyMainWindow(QMainWindow):
+class MyMainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MyMainWindow, self).__init__()
-        loadUi('mainwindow.ui', self)
+        self.setupUi(self)
         self.initUI()
 
     def initUI(self):
