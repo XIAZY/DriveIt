@@ -49,13 +49,19 @@ class SharedBase(object):
         if os.path.exists(path) is False and os.path.exists(path_safe) is False:
             try:
                 try:
-                    os.makedirs(path)
-                except:
+                    if os.path.exists(path):
+                        pass
+                    else:
+                        os.makedirs(path)
+                except FileExistsError as e:
                     pass
             except NotADirectoryError as e:
                 try:
-                    os.makedirs(path_safe)
-                except:
+                    if os.path.exists(path_safe):
+                        pass
+                    else:
+                        os.makedirs(path_safe)
+                except FileExistsError as e:
                     pass
         if os.path.exists(path) is True:
             return file_path
