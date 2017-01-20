@@ -40,35 +40,36 @@ class SharedBase(object):
     def get_path(self, name, parent, page, ext='', dir=''):
         filename = str(page) + '.' + ext
         if dir != '':
-            path = os.path.join(dir, name, str(parent))
-            path_safe = os.path.join(dir, self.safe(name), self.safe(str(parent)))
+            # path = os.path.join(dir, name, str(parent))
+            path_safe = os.path.join(dir, self.purify(name), self.purify(str(parent)))
         else:
-            path = os.path.join(os.getcwd(), name, str(parent))
-            path_safe = os.path.join(os.getcwd(), self.safe(name), self.safe(str(parent)))
-        file_path = os.path.join(path, filename)
-        if os.path.exists(path) is False and os.path.exists(path_safe) is False:
+            # path = os.path.join(os.getcwd(), name, str(parent))
+            path_safe = os.path.join(os.getcwd(), self.purify(name), self.purify(str(parent)))
+        file_path = os.path.join(path_safe, filename)
+        if not os.path.exists(path_safe):
+            # try:
+            #     try:
+            #         if os.path.exists(path):
+            #             pass
+            #         else:
+            #             os.makedirs(path)
+            #     except FileExistsError as e:
+            #         pass
+            # except NotADirectoryError as e:
+            #     try:
+            #         if os.path.exists(path_safe):
+            #             pass
+            #         else:
+            #             os.makedirs(path_safe)
+            #     except FileExistsError as e:
+            #         pass
             try:
-                try:
-                    if os.path.exists(path):
-                        pass
-                    else:
-                        os.makedirs(path)
-                except FileExistsError as e:
-                    pass
-            except NotADirectoryError as e:
-                try:
-                    if os.path.exists(path_safe):
-                        pass
-                    else:
-                        os.makedirs(path_safe)
-                except FileExistsError as e:
-                    pass
-        if os.path.exists(path) is True:
-            return file_path
-        else:
-            return os.path.join(path_safe, filename)
+                os.makedirs(path_safe)
+            except FileExistsError as e:
+                pass
+        return file_path
 
-    def safe(self, str):
+    def purify(self, str):
         str_safe = str.replace('/', '').replace('\\', '').replace('*', '').replace('?', '').replace('<', '').replace(
             '>', '').replace('|', '').replace(':', '').replace('"', '')
         return str_safe
