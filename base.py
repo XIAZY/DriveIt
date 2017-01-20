@@ -16,7 +16,7 @@ class SharedBase(object):
             return 'ck101'
         if re.match(r'http://www.dmzj.com/info/.+?.html', self.url):
             return 'dmzj'
-        if re.match(r'http://manhua.dmzj.com/[a-z]+?/', self.url):
+        if re.match(r'http://manhua.dmzj.com/[a-z]+?', self.url):
             return 'manhua_dmzj'
         if re.match(r'http://g.e-hentai.org/g/\d+?/[a-zA-Z0-9]+?', self.url):
             return 'ehentai'
@@ -49,13 +49,19 @@ class SharedBase(object):
         if os.path.exists(path) is False and os.path.exists(path_safe) is False:
             try:
                 try:
-                    os.makedirs(path)
-                except:
+                    if os.path.exists(path):
+                        pass
+                    else:
+                        os.makedirs(path)
+                except FileExistsError as e:
                     pass
             except NotADirectoryError as e:
                 try:
-                    os.makedirs(path_safe)
-                except:
+                    if os.path.exists(path_safe):
+                        pass
+                    else:
+                        os.makedirs(path_safe)
+                except FileExistsError as e:
                     pass
         if os.path.exists(path) is True:
             return file_path
